@@ -9,20 +9,29 @@ chrome.runtime.onInstalled.addListener(() => {
 // Listen for the alarm
 chrome.alarms.onAlarm.addListener((alarm) => {
   if (alarm.name === "drinkWater") {
-    // Check if reminders are enabled before showing notification
-    chrome.storage.sync.get(['reminderEnabled'], (result) => {
-      const isEnabled = result.reminderEnabled || false;
-      if (isEnabled) {
-        // Check if there's already a pending reminder
-        chrome.storage.local.get(['pendingWaterReminder'], (localResult) => {
-          if (!localResult.pendingWaterReminder) {
-            showNotification();
-          } else {
-            console.log("[Background] Pending reminder exists, skipping new notification");
+    console.log("[Background] Drink water alarm fired at", new Date().toLocaleTimeString());
+
+    chrome.idle.queryState(600, (state) => {
+      if (state === "active") {
+        // Check if reminders are enabled before showing notification
+        chrome.storage.sync.get(['reminderEnabled'], (result) => {
+          const isEnabled = result.reminderEnabled || false;
+          if (isEnabled) {
+            // Check if there's already a pending reminder
+            chrome.storage.local.get(['pendingWaterReminder'], (localResult) => {
+              if (!localResult.pendingWaterReminder) {
+                showNotification();
+              } else {
+                console.log("[Background] Pending reminder exists, skipping new notification");
+              }
+            });
           }
-        });
+        })
+      } else {
+        console.log("[Background] User is idle/locked, skipping notification");
       }
-    })
+    });
+
   }
 });
 
