@@ -1,0 +1,21 @@
+{
+  "name": "drink-water-buddy",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.0.3",
+    "@types/chrome": "^0.1.1",
+    "@types/node": "^24.4.0",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.5",
+    "vite-plugin-zip-pack": "^1.2.4"
+  },
+  "dependencies": {
+    "lottie-web": "^5.13.0"
+  }
+}
